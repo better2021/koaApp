@@ -1,0 +1,29 @@
+{
+  "name": "koa-app",
+  "version": "1.0.0",
+  "description": "koa study",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon app.js"
+  },
+  "keywords": [
+    "koa"
+  ],
+  "author": "feiyu",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-cors": "0.0.16",
+    "koa-passport": "^4.1.3",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.6.3",
+    "passport-jwt": "^4.0.0",
+    "validator": "^11.1.0"
+  }
+}
