@@ -133,21 +133,50 @@ router.get(
 )
 
 /**
+ * @route GET api/users/update
+ * @desc 更新接口地址
+ * @access 接口是公开的
+ */
+router.put("/update", async ctx => {
+  console.log(ctx.request.body, "--")
+  ctx.status = 200
+  const newUser = new User({
+    _id: ctx.request.body.id,
+    name: ctx.request.body.name,
+    email: ctx.request.body.email
+  })
+
+  await User.updateOne(newUser, err => {
+    if (err) {
+      throw Error(err)
+    } else {
+      ctx.body = {
+        type: "success",
+        message: "更新成功"
+      }
+    }
+  })
+})
+
+/**
  * @route GET api/users/delete
  * @desc 删除接口地址
  * @access 接口是公开的
  */
 router.delete("/delete", async ctx => {
+  console.log(ctx.request.body, "--")
   ctx.status = 200
-  let flag = false
-  await User.remove({ id }, err => {
+  const id = ctx.request.body.id
+  await User.deleteOne({ _id: id }, err => {
     if (err) {
-      flag = false
+      throw error(err)
     } else {
-      flag = true
+      ctx.body = {
+        type: "success",
+        message: "删除成功"
+      }
     }
   })
-  ctx.body = flag
 })
 
 module.exports = router.routes()
