@@ -140,13 +140,16 @@ router.get(
 router.put("/update", async ctx => {
   console.log(ctx.request.body, "--")
   ctx.status = 200
-  const newUser = new User({
+  // 更新的条件
+  const conditions = { _id: ctx.request.body.id }
+  // 要更新的数据
+  const update = {
     _id: ctx.request.body.id,
     name: ctx.request.body.name,
     email: ctx.request.body.email
-  })
+  }
 
-  await User.updateOne(newUser, err => {
+  await User.updateOne(conditions, update, err => {
     if (err) {
       throw Error(err)
     } else {
