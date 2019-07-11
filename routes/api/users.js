@@ -39,7 +39,7 @@ router.post("/register", async ctx => {
 
   // 判断是否验证通过
   if (!isValid) {
-    ctx.state = 400
+    ctx.status = 400
     ctx.body = errors
     return
   }
@@ -51,7 +51,7 @@ router.post("/register", async ctx => {
     ctx.status = 500
     ctx.body = { email: "邮箱已被占用" }
   } else {
-    // 没查到
+    ctx.status = 200
     const avatar = gravatar.url(ctx.request.body.email, {
       s: "200",
       r: "pg",
@@ -93,7 +93,7 @@ router.post("/login", async ctx => {
 
   // 判断查到没
   if (findResult.length === 0) {
-    ctx.status = 404
+    ctx.status = 401
     ctx.body = { email: "用户不存在" }
   } else {
     // 查到后验证密码
