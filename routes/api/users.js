@@ -17,6 +17,7 @@ const validatorRegister = require("../../validator/register")
  * @route GET api/users/list
  * @desc 查询接口地址
  * @access 接口是公开的
+ * $regex has to be a string 如果报这个错表示接口接受的key值和传来的不一致
  */
 router.get("/list", async ctx => {
   ctx.status = 200
