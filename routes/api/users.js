@@ -20,9 +20,7 @@ const validatorRegister = require("../../validator/register")
  */
 router.get("/list", async ctx => {
   ctx.status = 200
-  const findResult = await User.find({
-    data: ctx.state.user
-  })
+  const findResult = await User.find({}) // 查询
   ctx.body = findResult
   // console.log(findResult)
 })
@@ -133,7 +131,7 @@ router.get(
 )
 
 /**
- * @route GET api/users/update
+ * @route PUT api/users/update
  * @desc 更新接口地址
  * @access 接口是公开的
  */
@@ -144,9 +142,17 @@ router.put("/update", async ctx => {
   const conditions = { _id: ctx.request.body.id }
   // 要更新的数据
   const update = {
-    _id: ctx.request.body.id,
     name: ctx.request.body.name,
     email: ctx.request.body.email
+  }
+
+  if (!ctx.request.body.id) {
+    ctx.body = {
+      type: "error",
+      status: 401,
+      message: "缺少参数id"
+    }
+    return false
   }
 
   await User.updateOne(conditions, update, err => {
@@ -162,7 +168,7 @@ router.put("/update", async ctx => {
 })
 
 /**
- * @route GET api/users/delete
+ * @route DELETE api/users/delete
  * @desc 删除接口地址
  * @access 接口是公开的
  */
@@ -176,6 +182,7 @@ router.delete("/delete", async ctx => {
     } else {
       ctx.body = {
         type: "success",
+        status: 200,
         message: "删除成功"
       }
     }

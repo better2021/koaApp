@@ -19,9 +19,15 @@ require("./config/passport")(passport)
 
 // 引入users.js
 const users = require("./routes/api/users")
+// 引入domains.js
+const domains = require("./routes/api/domains")
+// 引入comment.js
+const comments = require("./routes/api/comments")
 
-// 配置路由地址 localhost:5000/api/users
-router.use("/api/users", users)
+// 配置路由地址
+router.use("/api/users", users) //localhost:5000/api/users
+router.use("/api/domains", domains) //localhost:5000/api/domains
+router.use("/api/comments", comments) //localhost:5000/api/comments
 
 // 配置路由
 app.use(router.routes()).use(router.allowedMethods())

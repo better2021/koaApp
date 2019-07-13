@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-// 实例化数据模板
+// 实例化数据模板(Schema数据库的模型)
 const UserSchema = new Schema({
   name: {
     type: String,
