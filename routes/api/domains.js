@@ -11,7 +11,7 @@ const Domain = require("../../models/Domain")
  */
 router.get("/list", async ctx => {
   ctx.status = 200
-  const findResult = await Domain.find({}) // 查询
+  const findResult = await Domain.find({}).sort({ _id: -1 }) // 倒序查询 // 查询
   ctx.body = findResult
   // console.log(findResult)
 })

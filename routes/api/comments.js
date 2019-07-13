@@ -10,10 +10,30 @@ const Comment = require("../../models/Comment")
  * @desc 列表接口地址
  * @access 接口是公开的
  */
+/**
+ * @route GET api/users/list
+ * @desc 查询接口地址
+ * @access 接口是公开的
+ */
 router.get("/list", async ctx => {
   ctx.status = 200
-  const findResult = await Comment.find({}) // 查询
-  ctx.body = findResult
+  console.log(ctx.query, "--") // ctx.query 获取get请求传来的参数
+  let findResult
+  if (!Object.keys(ctx.query).length) {
+    findResult = await Comment.find({}).sort({ _id: -1 }) // 返回全部数据,默认为正序，设置 sort({ _id: -1 }) 则为倒序
+  } else {
+    findResult = await Comment.find({
+      // 查询条件
+      userName: { $regex: ctx.query.userName, $options: "$i" } // $regex 用于模糊查询;$options: "$i"用于忽略大小写
+    })
+  }
+
+  ctx.body = {
+    type: "success",
+    status: 200,
+    message: "请求成功",
+    list: findResult
+  }
   // console.log(findResult)
 })
 

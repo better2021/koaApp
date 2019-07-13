@@ -7,7 +7,7 @@ const CommentSchema = new Schema({
   // 用户名
   userName: {
     type: String,
-    require: true
+    required: true
   },
   // 头像的url地址
   avatar: {
