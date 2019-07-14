@@ -17,7 +17,7 @@ router.post("/upload", async (ctx, next) => {
   const upStream = fs.createWriteStream(filePath)
   // 可读流通过管道写入可写流
   reader.pipe(upStream)
-  console.log(reader, "*-*-*")
+  console.log(file.path, file.name, "*-*-*")
   return (ctx.body = {
     type: "success",
     status: 200,
