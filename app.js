@@ -4,7 +4,7 @@ const mongoose = require("mongoose")
 const bodyParser = require("koa-bodyparser")
 const passport = require("koa-passport")
 const cors = require("koa-cors")
-
+const koaBody = require("koa-body")
 // 实例化koa
 const app = new koa()
 const router = new Router()
@@ -13,6 +13,15 @@ app.use(bodyParser()) // 处理post请求获取参数
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors()) // 设置允许跨域
+
+app.use(
+  koaBody({
+    multipart: true, // 是否支持 multipart-formdate 的表单
+    formidable: {
+      maxFieldsSize: 200 * 1024 * 1024 // 设置上传文件大小最大限制，默认为2M
+    }
+  })
+)
 
 // 回调到config文件中，passport.js
 require("./config/passport")(passport)
@@ -23,11 +32,14 @@ const users = require("./routes/api/users")
 const domains = require("./routes/api/domains")
 // 引入comment.js
 const comments = require("./routes/api/comments")
+// 引入uploadFile.js
+const upload = require("./routes/api/uploadFile")
 
 // 配置路由地址
 router.use("/api/users", users) //localhost:5000/api/users
 router.use("/api/domains", domains) //localhost:5000/api/domains
 router.use("/api/comments", comments) //localhost:5000/api/comments
+router.use("/api/uploadFile", upload) // localhost:5000/api/uploadFile
 
 // 配置路由
 app.use(router.routes()).use(router.allowedMethods())
