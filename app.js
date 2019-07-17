@@ -52,7 +52,7 @@ const options = {
   promiseLibrary: global.Promise
 }
 
-// 连接数据库
+// 连接数据库mongoDB
 mongoose
   .connect(
     // 27017

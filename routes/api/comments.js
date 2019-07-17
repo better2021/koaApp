@@ -10,11 +10,7 @@ const Comment = require("../../models/Comment")
  * @desc 列表接口地址
  * @access 接口是公开的
  */
-/**
- * @route GET api/users/list
- * @desc 查询接口地址
- * @access 接口是公开的
- */
+
 router.get("/list", async ctx => {
   ctx.status = 200
   console.log(ctx.query, "--") // ctx.query 获取get请求传来的参数
