@@ -10,9 +10,12 @@ app.use(bodyParser()) // 处理post请求获取参数
 
 // 引入product.js
 const product = require("./routes/mysqlApi/product")
+// 引入user.js
+const user = require("./routes/mysqlApi/user")
 
 // 配置路由地址
 router.use("/sqlApi/product", product) //localhost:3000/sqlApi/product
+router.use("/sqlApi/user", user) //localhost:3000/sqlApi/user
 
 // 配置路由
 app.use(router.routes()).use(router.allowedMethods())
@@ -21,10 +24,10 @@ app.use(router.routes()).use(router.allowedMethods())
 sequelize
   .authenticate()
   .then(() => {
-    console.log("mysql数据库连接成功")
+    console.log("MYSQL数据库连接成功")
   })
   .catch(err => {
-    console.error("mysql数据库连接失败", err)
+    console.error("MYSQL数据库连接失败", err)
   })
 
 // 路由
