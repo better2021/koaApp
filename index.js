@@ -2,10 +2,12 @@ const koa = require("koa")
 const Router = require("koa-router")
 const bodyParser = require("koa-bodyparser")
 const sequelize = require("./config/sqlConfig") // 连接数据库的配置
+const cors = require("koa-cors")
 const app = new koa()
 const router = new Router()
 
 const port = process.env.PORT || 3000
+app.use(cors()) // 设置允许跨域
 app.use(bodyParser()) // 处理post请求获取参数
 
 // 引入product.js
