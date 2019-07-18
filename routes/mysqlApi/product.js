@@ -43,5 +43,51 @@ router.post("/create", async ctx => {
   }
 })
 
+/**
+ * @route PUT sqlApi/product/update
+ * @desc 更新接口列表
+ * @access 接口是公开的
+ */
+router.put("/update", async ctx => {
+  console.log(ctx.request.body, "---")
+  // 修改的数据集合
+  const values = {
+    product_name: ctx.request.body.name,
+    product_price: ctx.request.body.price
+  }
+  // where用于限制修改的数据的条件
+  const opts = {
+    where: { num: ctx.request.body.num }
+  }
+
+  const data = await Product.update(values, opts)
+  console.log(data, "----666")
+  ctx.body = {
+    type: "success",
+    status: 200,
+    message: "更新成功"
+  }
+})
+
+/**
+ * @route DELECT sqlApi/product/delete
+ * @desc 删除商品接口
+ * @access 接口是公开的
+ */
+router.delete("/delete", async ctx => {
+  console.log(ctx.request.body, "---")
+  // 删除的条件
+  const opts = {
+    where: { num: ctx.request.body.num }
+  }
+  const data = await Product.destroy(opts)
+  console.log(data, "---")
+  ctx.body = {
+    type: "success",
+    status: 200,
+    message: "删除成功"
+  }
+})
+
 // 暴露API接口
 module.exports = router.routes()

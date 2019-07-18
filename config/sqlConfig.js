@@ -1,11 +1,5 @@
 const Sequelize = require("sequelize")
 
-// import mysql2 from "mysql2"
-// if (options.dialect === "mysql") {
-//   options.dialectModule = mysql2
-// }
-// new Sequelize(options)
-
 //  连接数据库的config配置
 const config = {
   host: "localhost", // 主机名
@@ -20,11 +14,17 @@ const sequelize = new Sequelize(
   config.username,
   config.password,
   {
-    host: config.host,
+    host: config.host, // 自定义链接地址，可以是ip或者域名，默认本机：localhost
     dialect: "mysql", // /* 'mysql' | 'mariadb' | 'postgres' | 'mssql' 之一 */ 数据库类型
+    // 数据库默认参数,全局参数
+    define: {
+      charset: "utf8", // 默认为utf-8的编码
+      timestamps: false // 关闭Sequelize的自动添加timestamp的功能
+    },
     pool: {
-      max: 5,
-      min: 0,
+      // 连接池设置
+      max: 5, // 最大连接数
+      min: 0, // 最下连接数
       acquire: 30000,
       idle: 10000
     }

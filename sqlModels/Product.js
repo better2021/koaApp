@@ -13,13 +13,28 @@ const Product = sequelize.define(
       autoIncrement: true, //自增(注意：设置为自增的项必须为主键且类型为INTEGER数字型)
       primaryKey: true //主键
     },
-    product_price: Sequelize.INTEGER,
-    product_name: Sequelize.STRING,
+    product_price: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0, //  默认值是0
+      validate: {
+        // 只允许数字
+        isNumeric: {
+          msg: "价格只能为数字"
+        }
+      }
+    },
+    product_name: {
+      type: Sequelize.STRING,
+      required: true,
+      validate: {
+        len: {
+          args: [2, 20],
+          msg: "产品名应为2至20位"
+        }
+      }
+    },
     create_time: Sequelize.DATE,
     update_time: Sequelize.DATE
-  },
-  {
-    timestamps: false // 关闭Sequelize的自动添加timestamp的功能
   }
 )
 
