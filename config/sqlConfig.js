@@ -25,8 +25,8 @@ const sequelize = new Sequelize(
       // 连接池设置
       max: 5, // 最大连接数
       min: 0, // 最下连接数
-      acquire: 30000,
-      idle: 10000
+      idle: 10000, //每个线程最长等待时间
+      acquire: 30000
     }
   }
 )

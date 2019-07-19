@@ -10,18 +10,28 @@ const User = require("../../sqlModels/User")
  * @desc user列表接口
  * @access 接口是公开的
  * 想要只选择某些属性,可以使用 attributes 选项
- * findAll({ attributes: ["userName", "tel"] })
+ * findAll({ attributes: ["userName", "tel"] }) 表示查询"userName", "tel"字段
+ * Where - 指定筛选条件 例如whrer:{id:2}
  */
 
 router.get("/list", async ctx => {
   console.log(ctx.query, "--")
-  const data = await User.findAll()
+  const { pageNum, pageSize } = ctx.query
+  const total = await User.findAll({})
+  const data = await User.findAll({
+    offset: (Number(pageNum) - 1) * Number(pageSize), // 偏移量
+    limit: Number(pageSize) || 10 // 每页的条数
+  })
 
   ctx.body = {
     type: "success",
     status: 200,
     message: "请求成功",
-    list: data
+    list: data,
+    attributes: {
+      page: Number(pageNum),
+      total: total.length
+    }
   }
 })
 
@@ -71,6 +81,13 @@ router.post("/create", async ctx => {
 
 router.put("/update", async ctx => {
   console.log(ctx.request.body, "---")
+  if (!ctx.request.body.id) {
+    ctx.body = {
+      type: "error",
+      status: 400,
+      message: "缺少必传参数id"
+    }
+  }
   // 修改的数据集合
   const values = {
     userName: ctx.request.body.userName,
@@ -99,6 +116,13 @@ router.put("/update", async ctx => {
  */
 router.delete("/delete", async ctx => {
   console.log(ctx.request.body, "---")
+  if (!ctx.request.body.id) {
+    ctx.body = {
+      type: "error",
+      status: 400,
+      message: "缺少必传参数id"
+    }
+  }
   // 删除条件
   const opts = {
     where: {
