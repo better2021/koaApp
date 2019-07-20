@@ -16,21 +16,25 @@ const User = require("../../sqlModels/User")
 
 router.get("/list", async ctx => {
   console.log(ctx.query, "--")
-  const { pageNum, pageSize } = ctx.query
-  const total = await User.findAll({})
-  const data = await User.findAll({
-    offset: (Number(pageNum) - 1) * Number(pageSize), // 偏移量
-    limit: Number(pageSize) || 10 // 每页的条数
+  const pageNum = Number(ctx.query.pageNum)
+  const pageSize = Number(ctx.query.pageSize)
+  // findAndCountAll可以返回数据的总条数count
+  const data = await User.findAndCountAll({
+    order: [["createTime", "DESC"]], //  根据createTime字段倒序，DESC为倒序
+    offset: (pageNum - 1) * pageSize, // 偏移量
+    limit: pageSize || 10 // 每页的条数
   })
+
+  // console.log(data, "---")
 
   ctx.body = {
     type: "success",
     status: 200,
     message: "请求成功",
-    list: data,
+    list: data.rows,
     attributes: {
-      page: Number(pageNum),
-      total: total.length
+      page: pageNum,
+      total: data.count // 总条数
     }
   }
 })
