@@ -2,6 +2,9 @@
 const Router = require("koa-router")
 const router = new Router()
 
+const Sequelize = require("sequelize")
+const Op = Sequelize.Op
+
 // 引入user数据模型
 const User = require("../../sqlModels/User")
 
@@ -18,9 +21,15 @@ router.get("/list", async ctx => {
   console.log(ctx.query, "--")
   const pageNum = Number(ctx.query.pageNum)
   const pageSize = Number(ctx.query.pageSize)
+  const keyWord = ctx.query.userName
   // findAndCountAll可以返回数据的总条数count
   const data = await User.findAndCountAll({
     order: [["createTime", "DESC"]], //  根据createTime字段倒序，DESC为倒序
+    where: {
+      userName: {
+        [Op.like]: `%${keyWord}%` // 模糊搜索
+      }
+    },
     offset: (pageNum - 1) * pageSize, // 偏移量
     limit: pageSize || 10 // 每页的条数
   })
