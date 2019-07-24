@@ -14,10 +14,13 @@ app.use(bodyParser()) // 处理post请求获取参数
 const product = require("./routes/mysqlApi/product")
 // 引入user.js
 const user = require("./routes/mysqlApi/user")
+// 引入film.js
+const film = require("./routes/mysqlApi/film")
 
 // 配置路由地址
 router.use("/sqlApi/product", product) //localhost:3000/sqlApi/product
 router.use("/sqlApi/user", user) //localhost:3000/sqlApi/user
+router.use("/sqlApi/film", film) //localhost:3000/sqlApi/film
 
 // 配置路由
 app.use(router.routes()).use(router.allowedMethods())
